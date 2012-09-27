@@ -331,5 +331,52 @@ class Client(object):
         return urllib.urlencode(p).encode("UTF-8")
 
 
+class InMemoryClient(Client):
+    """
+    First pass, where "in memory" has (generous) implications that we might
+    do sensible things with data in-memory, rather than ditch it and return
+    semi-junk
+    """
+
+    def __init__(self, *args, **kwargs):
+        pass
+
+    def create_database(self, name=""):
+        return Database(None, None)
+
+    def get_series(self, ids=[], keys=[], tags=[], attributes={}):
+        return []
+
+    def create_series(self, key=None):
+        return Series(None, None)
+
+    def update_series(self, series):
+        return Series(None, None)
+
+    def read(self, start, end, interval="", function="", ids=[], keys=[], tags=[], attributes={}, tz=""):
+        return []
+
+    def write_bulk(self, ts, data):
+        """
+        https://github.com/doismellburning/tempodb-python/blob/master/tempodb/client.py#L217 returns the "response JSON" but http://tempo-db.com/docs/api/write/ just says "Response: A 200 OK if the request completes." so returning NoneType for now...
+        """
+        return
+
+    def increment_bulk(self, ts, data):
+        """
+        See docs for write_bulk re return value, and difference wrt http://tempo-db.com/docs/api/increment/
+        """
+        return
+
+    def _read(self, series_type, series_val, start, end, interval="", function="", tz=""):
+        return DataSet(None, None, None)
+
+    def _write(self, series_type, series_val, data):
+        return
+
+    def _increment(self, series_type, series_val, data):
+        return
+
+
 class TempoDBApiException(Exception):
     pass
